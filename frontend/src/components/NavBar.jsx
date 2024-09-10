@@ -1,7 +1,6 @@
 import {
     Box,
     Flex,
-    Link,
     Button,
     Input,
     InputGroup,
@@ -9,7 +8,8 @@ import {
     Icon
   } from '@chakra-ui/react';
   import { FaSearch } from 'react-icons/fa';
-  
+  import { Link } from 'react-router-dom';
+
   function Navbar() {
     return (
       <Box as="nav" py={4} px={4} bg="gray.50" boxShadow="md">
@@ -24,11 +24,16 @@ import {
             <Input type="search" placeholder="Search..." />
           </InputGroup>
           <Flex justify="flex-end">
-            <Button variant="outline" colorScheme="blue" mr={2}>
-              Login
+            <Button variant="outline" colorScheme="blue" mr={2} fontSize="lg" fontWeight="bold" _hover={{ textDecoration: 'none' }}>
+              <Link to="/login" >
+                Login
+              </Link>
             </Button>
             <Button variant="solid" colorScheme="blue">
-              Register
+              <Link to="/register" >
+                Register
+              </Link>
+  
             </Button>
           </Flex>
         </Flex>

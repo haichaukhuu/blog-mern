@@ -1,7 +1,9 @@
 import { Routes, Route } from "react-router-dom"
 import NavBar from "./components/NavBar"
-import Home from "./pages/Home"
+import HomePage from "./pages/HomePage"
 import BlogCard from "./components/BlogCard"
+import LoginPage from "./pages/LoginPage"
+import RegisterPage from "./pages/RegisterPage"
 import React, { useState } from 'react';
 
 import { ChakraProvider } from '@chakra-ui/react'
@@ -23,14 +25,18 @@ function App() {
 
       <Routes>
         <Route path="/" element={
-          <Home>
+          <HomePage>
 
             {posts.map((post, index) => (
               <BlogCard key={index} {...post} />
             ))}
 
-          </Home>
+          </HomePage>
         } />
+
+        <Route exact path="/login" element=<LoginPage/> />
+        <Route exact path="/register" element=<RegisterPage/> />
+
       </Routes>
     </ChakraProvider>
   )
