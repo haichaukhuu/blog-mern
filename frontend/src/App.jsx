@@ -1,9 +1,11 @@
 import { Routes, Route } from "react-router-dom"
 import NavBar from "./components/NavBar"
-import HomePage from "./pages/HomePage"
 import BlogCard from "./components/BlogCard"
+import HomePage from "./pages/HomePage"
 import LoginPage from "./pages/LoginPage"
 import RegisterPage from "./pages/RegisterPage"
+import WritePage from "./pages/WritePage"
+import ProfilePage from "./pages/ProfilePage"
 import React, { useState } from 'react';
 
 import { ChakraProvider } from '@chakra-ui/react'
@@ -36,6 +38,8 @@ function App() {
 
         <Route exact path="/login" element=<LoginPage/> />
         <Route exact path="/register" element=<RegisterPage/> />
+        <Route exact path="/write" element=<WritePage/> />
+        <Route exact path="/profile" element=<ProfilePage/> />
 
       </Routes>
     </ChakraProvider>
