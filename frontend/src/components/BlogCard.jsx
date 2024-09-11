@@ -1,40 +1,45 @@
+import React from 'react';
 import { Box, Text, Image, Link, Stack, Flex } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
-function BlogCard({ title, image, author, date, description }) {
+function BlogCard({ post }) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/post/${post.id}`);  // Navigate to the correct post by ID
+  };
+
   return (
-    <Box borderWidth="1px" borderRadius="lg" overflow="hidden" my="5" p="4">
+    <Box borderWidth="1px" borderRadius="lg" overflow="hidden" my="5" p="4" onClick={handleClick} cursor="pointer">
       <Flex direction={{ base: 'column', md: 'row' }}>
-        {/* Blog Image */}
         <Image
-          src={image}
-          alt={title}
-          objectFit="cover"
-          width={{ base: '100%', md: '200px' }} // Adjust width for responsive design
-          height="auto"
-          borderRadius="md"
+            src={post.image}
+            alt={post.title}
+            objectFit="cover"
+            width={{ base: '100%', md: '200px' }} // adjust width for responsive 
+            height="auto"
+            borderRadius="md"
         />
 
-        {/* Blog Text Content */}
         <Box flex="1" ml={{ base: 0, md: 6 }} mt={{ base: 4, md: 0 }}>
           <Stack spacing="3">
-            {/* Title */}
-            <Text fontWeight="bold" fontSize="lg">
-              {title}
+            <Text fontWeight="bold" fontSize="lg" isTruncated>
+              {post.title}
             </Text>
-
-            {/* Author and Date */}
+            
+            {/* <Text fontSize="sm" color="gray.500">{post.author} - {post.date}</Text> */}
             <Flex justifyContent="space-between" fontSize="sm" color="gray.500">
-              <Text>{author}</Text>
-              <Text>{date}</Text>
+              <Text>{post.author}</Text>
+              <Text>{post.date}</Text>
             </Flex>
 
-            {/* Description */}
             <Text noOfLines={2} fontSize="md">
-              {description}
+                {post.description}
             </Text>
 
-            {/* Read More Link */}
-            <Link color="teal.500">Read more</Link>
+            <Link color="teal.500" onClick={handleClick}>
+              Read more
+            </Link>
           </Stack>
         </Box>
       </Flex>
