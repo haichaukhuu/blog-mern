@@ -3,6 +3,7 @@ const app = express()
 
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
+const authRoute = require('./routes/auth')
 
 // DATABASE
 const connectMongoDB = async() => {
@@ -18,6 +19,8 @@ const connectMongoDB = async() => {
 // middlewares
 
 dotenv.config()
+app.use(express.json())
+app.use('/api/auth', authRoute)
 
 app.listen(3000, () => { 
     connectMongoDB()
