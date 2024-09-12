@@ -38,10 +38,10 @@ router.post("/register", async (req, res) => {
       await newUser.save(); // save to database
   
       // JWT token
-    //   const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {
-    //     expiresIn: "1h",
-    //   });      
-    //   res.status(201).json({ token, user }); //return token and user data
+      const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {
+        expiresIn: "3dj",
+      });      
+      res.status(201).json({ token, user }); //return token and user data
 
     } catch (error) {
       console.error(error);
@@ -53,30 +53,35 @@ router.post("/register", async (req, res) => {
 // LOGIN
 router.post("/login", async(req, res) => {
   try {
-    const { email, password } = req.body;
-    if (!email || !password) {
+    if (!req.body.email || !req.body.password) {
       return res.status(400).json({ error: "Please fill all fields" });
     }
 
     // Login using email
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: req.body.email })
+
     if (!user) {
       return res.status(401).json({ error: "Invalid email or password" });
     }
-    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    const isPasswordCorrect = await bcrypt.compare(req.body.password, user.password);
     if (!isPasswordCorrect) {
       return res.status(401).json({ error: "Invalid email or password" });
     }
-    // const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-    //   expiresIn: "1h",
-    // });
-    // res.status(200).json({ token, user });
-    res.status(200).json({ user });
+
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {expiresIn: "3d",});
+    const {password, ...info} = user._doc
+
+    // res.cookie("jwtToken", token).status.json()
+    res.cookie("jwtToken", token).status(200).json(info)
+
+
   } catch(error) {
     res.status(500).json({ error: "Internal Server Error" });
 
   }
 
 })
+
+
 
 module.exports = router
