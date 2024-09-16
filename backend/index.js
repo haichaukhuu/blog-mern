@@ -3,7 +3,9 @@ const app = express()
 
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
+
 const authRoute = require('./routes/auth')
+const userRoute = require('./routes/users')
 
 // DATABASE
 const connectMongoDB = async() => {
@@ -20,7 +22,9 @@ const connectMongoDB = async() => {
 
 dotenv.config()
 app.use(express.json())
+
 app.use('/api/auth', authRoute)
+app.use('/api/users', userRoute)
 
 app.listen(3000, () => { 
     connectMongoDB()
