@@ -33,4 +33,18 @@ router.put('/:username', async (req, res) => {
     }
 });
 
+//DELETE USER 
+
+router.delete('/:username', async (req, res) => {
+    try {
+        await User.findOneAndDelete({ username: req.body.username });
+        // await Post.deleteMany({ username: req.body.username });
+        return res.status(200).json("User has been successfully deleted!")
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
 module.exports = router
