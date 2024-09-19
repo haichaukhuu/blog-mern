@@ -1,6 +1,5 @@
 const mongoose = require("mongoose")
 
-const mongoose = require("mongoose");
 
 const PostSchema = new mongoose.Schema({
   title: {
@@ -13,10 +12,12 @@ const PostSchema = new mongoose.Schema({
     required: true
   },
   description: {
-    type: String
+    type: String,
+    required: true
   },
   image: {
-    type: String
+    type: String,
+    required: true
   },
   date: {
     type: Date,
