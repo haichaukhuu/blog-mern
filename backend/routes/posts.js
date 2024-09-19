@@ -9,13 +9,30 @@ router.post("/write", async (req, res) => {
         const newPost = new Post(req.body)
         const savedPost = await newPost.save();
 
-        // const {title, description, image, date, content} = req.body.params
 
         return res.status(200).json(savedPost);
     } catch (error) {
         return res.status(500).json(error);
     }
 })
+
+// Get one post content using author name and post title
+router.get("/:author/:title", async (req, res) => {
+    try {
+      const post = await Post.findOne({ author: req.body.author, title: req.body.title });
+  
+      if (!post) {
+        return res.status(404).json({ error: "Post not found" });
+      }
+  
+      return res.status(200).json(post);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json(error);
+    }
+  });
+
+
 // UPDATE USER BY USERNAME
 // router.put('/:username', async (req, res) => {
 //     try {
