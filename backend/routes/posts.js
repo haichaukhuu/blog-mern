@@ -70,7 +70,6 @@ router.get("/:author/:title", async (req, res) => {
   }
 });
 
-// Get all post of one certain user
 // Get all posts by a certain user
 router.get("/:author", async (req, res) => {
   try {
@@ -93,6 +92,35 @@ router.get("/:author", async (req, res) => {
     console.error(error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
+});
+
+
+//Get all post in the database, sorted by date time
+router.get("/", async (req, res) => {
+  try {
+
+    // sort by createdAt in descending order, means latest to oldest
+    const posts = await Post.find().sort({ date: -1 }); 
+
+    if (!posts) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+    return res.status(200).json(posts);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json(error);
+  }
+});
+
+//SEARCH POST
+router.get("/search/:query", async (req, res) => {
+  try {
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+
 });
 
 module.exports = router
