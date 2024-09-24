@@ -16,23 +16,6 @@ router.post("/write", async (req, res) => {
     }
 })
 
-// Get one post content using author name and post title
-router.get("/:author/:title", async (req, res) => {
-    try {
-      const post = await Post.findOne(
-        { author: req.body.author, 
-        title: req.body.title });
-  
-      if (!post) {
-        return res.status(404).json({ error: "Post not found" });
-      }
-  
-      return res.status(200).json(post);
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json(error);
-    }
-  });
 
 //Update post
 // Update post
@@ -46,6 +29,8 @@ router.put("/:author/:title", async (req, res) => {
       { author: req.params.author, 
         title:req.params.title }, 
       );
+    
+
 
     if (!post) {
       return res.status(404).json({ error: "Post not found" });
@@ -63,6 +48,51 @@ router.put("/:author/:title", async (req, res) => {
   }
 });
 
+// Get one post content using author name and post title
+router.get("/:author/:title", async (req, res) => {
+  try {
+    const post = await Post.findOne(
+      { author: req.body.author, 
+      title: req.body.title });
+      
+    console.log("Retrieving post...");
+    console.log("Author: ", req.body.author);
+    console.log("Title: ", req.body.title);
+
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    return res.status(200).json(post);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json(error);
+  }
+});
+
 // Get all post of one certain user
+// Get all posts by a certain user
+router.get("/:author", async (req, res) => {
+  try {
+    // const author = req.params.author;
+    // const limit = req.query.limit || 10; //for pagination, just in case
+    // const skip = req.query.skip || 0;
+
+    const posts = await Post.find({ author : req.body.author });
+    // const posts = await Post.find({ author }).limit(limit).skip(skip);
+    console.log("Retrieving all posts from: ");
+    console.log("Author:", req.body.author);
+    console.log("Posts found:", posts);
+    
+    if (!posts || posts.length === 0) {
+      return res.status(404).json({ error: "No posts found" });
+    }
+
+    return res.status(200).json(posts);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 module.exports = router

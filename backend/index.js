@@ -11,7 +11,11 @@ const postRoute = require('./routes/posts')
 // DATABASE
 const connectMongoDB = async() => {
     try {
-        await mongoose.connect(process.env.MONGODB_URL);
+        // await mongoose.connect(process.env.MONGODB_URL);
+        await mongoose.connect(process.env.MONGODB_URL, {
+            serverSelectionTimeoutMS: 30000
+          });
+          
         console.log("Database is successfully connected!")
     }
     catch(error){
