@@ -3,6 +3,7 @@ const app = express()
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
+const cors = require('cors');
 
 const authRoute = require('./routes/auth')
 const userRoute = require('./routes/users')
@@ -28,6 +29,15 @@ const connectMongoDB = async() => {
 dotenv.config()
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors({
+    origin: 'http://localhost:5173', 
+    methods: 'GET,POST,PUT,DELETE,OPTIONS',
+    credentials: true, // dealing with cookies
+  }));
+
+app.options('*', cors()); // enable pre-flight requests for routes
+
+  
 
 app.use('/api/auth', authRoute);
 app.use('/api/users', userRoute);
