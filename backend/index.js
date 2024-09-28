@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-
+const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 
@@ -13,7 +13,7 @@ const connectMongoDB = async() => {
     try {
         // await mongoose.connect(process.env.MONGODB_URL);
         await mongoose.connect(process.env.MONGODB_URL, {
-            serverSelectionTimeoutMS: 30000
+            serverSelectionTimeoutMS: 300000
           });
           
         console.log("Database is successfully connected!")
@@ -26,11 +26,12 @@ const connectMongoDB = async() => {
 // middlewares
 
 dotenv.config()
-app.use(express.json())
+app.use(express.json());
+app.use(cookieParser());
 
-app.use('/api/auth', authRoute)
-app.use('/api/users', userRoute)
-app.use('/api/posts', postRoute)
+app.use('/api/auth', authRoute);
+app.use('/api/users', userRoute);
+app.use('/api/posts', postRoute);
 
 app.listen(3000, () => { 
     connectMongoDB()

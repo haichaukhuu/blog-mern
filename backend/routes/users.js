@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
+const verifyToken = require('../verifyToken');
 
 // UPDATE USER BY USERNAME
-router.put('/:username', async (req, res) => {
+router.put('/:username', verifyToken, async (req, res) => {
     try {
 
         const user = await User.findOne({ username: req.body.username });

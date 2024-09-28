@@ -79,9 +79,9 @@ router.get("/:author", async (req, res) => {
 
     const posts = await Post.find({ author : req.body.author });
     // const posts = await Post.find({ author }).limit(limit).skip(skip);
-    console.log("Retrieving all posts from: ");
-    console.log("Author:", req.body.author);
-    console.log("Posts found:", posts);
+    // console.log("Retrieving all posts from: ");
+    // console.log("Author:", req.body.author);
+    // console.log("Posts found:", posts);
     
     if (!posts || posts.length === 0) {
       return res.status(404).json({ error: "No posts found" });
@@ -98,7 +98,6 @@ router.get("/:author", async (req, res) => {
 //Get all post in the database, sorted by date time
 router.get("/", async (req, res) => {
   try {
-
     // sort by createdAt in descending order, means latest to oldest
     const posts = await Post.find().sort({ date: -1 }); 
 
@@ -112,15 +111,24 @@ router.get("/", async (req, res) => {
   }
 });
 
-//SEARCH POST
-router.get("/search/:query", async (req, res) => {
-  try {
 
+// SEARCH POST
+// Get all posts in the database, sorted by createdAt in descending order
+router.get("/", async (req, res) => {
+  try {
+    const posts = await Post.find().sort({ createdAt: -1 }); // Update field to createdAt
+
+    if (!posts) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+    return res.status(200).json(posts);
   } catch (error) {
-    console.error(error);
+    console.error(error.stack); // Log error details
     return res.status(500).json({ error: "Internal Server Error" });
   }
-
 });
+
+
+// to be continued SEARCH
 
 module.exports = router
